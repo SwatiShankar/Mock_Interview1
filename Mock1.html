@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pig Game</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 	<style>
+ 		.dice {
+ 			width: 100px;
+ 			height: 80px;
+    		float: left;
+    		background: #00CCCC;
+    		border: 1px solid black;
+    		padding: 18px;
+    		font-size: 24px;
+    		text-align: center;
+    		margin: 5px;
+    		border-radius: 12px;
+    		margin-top: 60px;
+    		margin-left: 500px;
+ 		}
+ 		h1 {
+ 			text-align: center;
+ 			text-decoration: underline;
+ 		}
+ 		h3 {
+ 			text-align: left;
+ 			text-decoration: underline;
+ 		}
+ 		.pl {
+ 			margin-top: 170px;
+ 			margin-bottom: 50px;
+ 		}
+ 		.pl1 {
+ 			margin-left: 450px;
+ 		}
+ 		.pl2 {
+ 			margin-left: 230px;
+ 		}
+ 		.pl3 {
+ 			margin-left: 100px;
+ 			background-color: #99CCFF;
+ 		}
+ 		.container {
+ 			margin-top: 100px;
+ 			border: 1px solid black;
+ 		}
+ 		ul li{
+    		background: #00CCCC;
+     		padding: 05px;
+     		font-family: Arial;
+     		font-style: italic;
+     		font-weight: bold;
+     		font-color: #CC0066;
+        }
+        button {
+  			display: inline-block;
+  			padding: 25px 35px;
+  			font-size: 24px;
+  			cursor: pointer;
+  			text-align: center;
+  			text-decoration: none;
+  			outline: none;
+  			color: #fff;
+  			background-color: #001933;
+  			border: none;
+  			border-radius: 15px;
+  			box-shadow: 0 5px #999;
+  			width: 200px;
+		}
+
+        button:hover {background-color: #3e8e41}
+
+
+ 	</style>
+ 	<script>
+ 			var arr1 = new Array();
+ 			var arr2 = new Array();
+ 			var sum1,sum2,gamePlaying;
+ 			function getDiceValue(key){
+ 				/*if(gamePlaying){*/
+ 			var dice1 = document.getElementById("dice1");
+ 			var diceVal=Math.floor(Math.random()*6)+1;
+ 			dice1.innerHTML = diceVal;
+ 			console.log(arr1.length);
+ 			console.log(arr2.length);
+ 			
+ 			if(key === "d1"){
+ 				arr1.push(diceVal);
+ 				sum1=arr1.reduce((a,b) => a+b ,0);
+ 				document.getElementById("player1").value=sum1;
+ 				console.log("d1 " +sum1);
+ 			} else if(key === "d2"){
+ 				arr2.push(diceVal);
+ 				sum2 = arr2.reduce((a,b) => a+b ,0);
+ 				document.getElementById("player2").value=sum2;
+ 				console.log("d2 " + sum2);
+ 			}
+ 			if(diceVal === 2 && key === "d1"){
+ 				document.getElementById("player1").value=sum1;
+ 				document.getElementById("btn1").disabled = true; 
+ 				alert("Game over");
+ 			} 
+ 			 if(diceVal === 2 && key === "d2"){
+ 			 	document.getElementById("player2").value=sum2;
+ 				document.getElementById("btn2").disabled = true; 
+ 				alert("Game over... Please click Restart button to start the game again");
+ 			}
+ 			if( document.getElementById("player1").value >=50 && document.getElementById("player2").value >=50){
+ 					document.getElementById("msg").innerHTML="Game is draw between Player1 and Player2";
+ 					document.getElementById("msg").display="block";
+ 				}
+ 				else if(document.getElementById("player1").value >=50){
+ 					document.getElementById("msg").innerHTML="player1 won the game";
+ 					document.getElementById("msg").display="block";
+ 				} else if(document.getElementById("player2").value >=50){
+ 					document.getElementById("msg").innerHTML="player2 won the game";
+ 					document.getElementById("msg").display="block";
+ 				}
+ 			/*}*/	
+ 		}
+
+ 		function getHoldValue(){
+ 				if(dice1 == player2){
+ 				document.getElementById("player2").value=dice1;
+ 				}
+ 			    else{
+ 			    document.getElementById("player1").value=dice1;	
+ 			    }
+
+ 		}
+ 		function reStart(){
+ 			sum1=0;
+ 			sum2=0
+ 			$('#player1').val(' ');
+ 			$('#player2').val(' ');
+ 			$('#btn1').prop("disabled",false);
+ 			$('#btn2').prop("disabled",false);
+ 			$('#dice1').text("0");
+ 			arr1 = [];
+ 			arr2 = [];
+  		}
+ 	</script>
+</head>
+<body>
+	<div class="container" style="background-color:#CCE5FF;">
+			<h1>Welcome to PIG game</h1>
+			<h3>Rules to follow :</h3>
+			
+			<ul class="list-group" style="margin-left: 100px;" color="blue;" >
+				<li>This game can be played by two players.</li>
+				<li>Each player can roll a dice as many time as he wish and each result will get added to his toltal score.</li>
+				<li>If a player rolls to then all his points are lost and second player will get his chance</li>
+				<li>The first player to reach the global score 50 will win the game.</li>
+				<li>If the active player clicks HOLD, then the score after his dice will be added to his total score and the opposite player has to continue with his game.
+			</ul>
+
+			<form class="form-inline">
+				<div class="player-0-panel active">
+
+				<div class="form-group" style="margin-left: 05px;" padding: 20px 50px;>
+					<label for="globalscore">Global Score</label>
+					<input type="text" class="form-control" name="gScore" id="globalscore" value="50" disabled="true">
+				</div>
+
+				<div class="form-group" style="margin-bottom: 05px;">
+					<label for="player1">Player1's Total Score</label>
+					<input type="text" class="form-control" name="p1Score" id="player1" value="" disabled="true">
+				</div>
+				
+				<div class="form-group" style="margin-left: 80px;">
+					<label for="player2">Player2's Total  Score</label>
+					<input type="text" class="form-control" name="p2Score" id="player2" value="" disabled="true">
+				</div>
+			
+				
+			</form>
+			
+
+			<div>
+				<div class="dice" id="dice1" style="margin-left: 700px;">0</div>
+			</div>
+
+			<br> 
+
+			<div class="pl">
+			<form class="form-inline">
+				<div class="form-group pl1">
+					<button type="button" class="btn btn-primary" onclick="getDiceValue('d1');" id="btn1">Roll Dice</button><br>
+					<label>Player 1</label>
+				</div>
+				
+				<div class="form-group pl2">
+					<button  type="button" class="btn btn-primary" onclick="getDiceValue('d2');" id="btn2">Roll Dice</button><br>
+					<label>Player 2</label>
+				</div><br></br>
+				<div class="form-gr" style="float: left;">
+					<button type="button" class="btn btn-info" onclick="reStart();">Restart</button>
+			    </div>
+				<div class="form-group pl3">
+					<button  type="button" class="btn btn-primary" onclick="getHoldValue('d3');" id="btn3">Hold</button><br>
+				</div><br><br>
+			</form>
+
+			<p id="msg" style="display: none;"></p>
+			</div>
+		</div>
+</body>
+
+</html>
